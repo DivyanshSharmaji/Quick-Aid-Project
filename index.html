@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quick Aid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>🚑 Quick Aid</h1>
+    <button id="toggleDark">🌓</button>
+  </header>
+
+  <main>
+    <div id="emergencyList"></div>
+    <div id="detailView" class="hidden">
+      <!-- <button id="backBtn">← Back</button> -->
+      <h2 id="detailTitle"></h2>
+      <ol id="stepsList"></ol>
+      <div class="actions">
+        <button id="speakBtn">🔊 Listen</button>
+        <a href="tel:112" class="callBtn">📞 Call 112</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

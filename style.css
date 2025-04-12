@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fefefe;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background: #fd4848;
+    color: white;
+  }
+  
+  #toggleDark {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: white;
+  }
+  
+  main {
+    padding: 1em;
+  }
+  
+  #emergencyList {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  
+  .card {
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s, background 0.3s;
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .card:hover {
+    transform: scale(1.01);
+    background: #f5f5f5;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  #detailView {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  #stepsList {
+    margin-top: 1em;
+    padding-left: 1.2em;
+  }
+  
+  .actions {
+    margin-top: 1em;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+  }
+  
+  .callBtn, #speakBtn, #backBtn {
+    padding: 0.6em 1.2em;
+    background: #fd4848;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  
+  .callBtn:hover, #speakBtn:hover, #backBtn:hover {
+    background: #686868;
+  }
+  
+  /* Dark mode */
+  body.dark {
+    background-color: #1a1a1a;
+    color: #eee;
+  }
+  
+  body.dark .card {
+    background: #333;
+    border-color: #444;
+  }
+  
+  body.dark header {
+    background: #222;
+  }
+  
+  body.dark .callBtn, 
+  body.dark #speakBtn,
+  body.dark #backBtn {
+    background: #555;
+  }
+  
+  body.dark .callBtn:hover, 
+  body.dark #speakBtn:hover,
+  body.dark #backBtn:hover {
+    background: #777;
+  }
+  
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+  
+  .accordion-content.open {
+    max-height: 500px; /* adjust based on step count */
+    opacity: 1;
+  }
+  
+  /* Styling for steps inside */
+  .accordion-content ol {
+    margin-top: 1em;
+    padding-left: 1.2em;
+  }
+  
+  .accordion-content .actions {
+    margin-top: 0.8em;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+  }
