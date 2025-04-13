@@ -1,5 +1,5 @@
 # The website is hosted at netlify.com, you can check this out from the following URL:
-
+https://quickaidfirst.netlify.app/
 
 ## About Project:
 The Quick Aid project focuses on providing immediate assistance in emergency situations by utilizing a website that features a location-sending capability. This allows users to quickly share their GPS coordinates with emergency responders, ensuring faster and more accurate help during critical times.
