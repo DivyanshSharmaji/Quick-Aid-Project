@@ -120,9 +120,9 @@ fetch('data.json')
 
 
       const callBtn = document.createElement('a');
-      callBtn.href = 'tel:112';
+      callBtn.href = 'tel:102';
       callBtn.className = 'callBtn';
-      callBtn.textContent = '📞 Call 112';
+      callBtn.textContent = '📞 Call 102';
 
       const locationBtn = document.createElement('button');
       locationBtn.textContent = '📍 Send Location';
