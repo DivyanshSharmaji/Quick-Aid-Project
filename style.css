@@ -1,148 +1,262 @@
+
+/* Base Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fefefe;
-    color: #333;
-    transition: background 0.3s, color 0.3s;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background: linear-gradient(to right, #ffffff, #f5f7fa);
+  color: #333;
+  transition: background 0.5s ease, color 0.3s ease;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1.5em 2em;
+  background: linear-gradient(to right, #fd5c63, #f76b1c);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Toggle & Search */
+#toggleDark {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: white;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+#searchInput {
+  padding: 0.5em;
+  font-size: 1em;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  width: 200px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#voiceSearch {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5em;
+  font-size: 1.2em;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#voiceSearch:hover {
+  background: #0056b3;
+}
+
+#voiceSearch.listening {
+  animation: pulse 1s infinite;
+  background-color: #0056b3;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
   }
-  
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 12px rgba(0, 123, 255, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+  }
+}
+
+
+/* Main Layout */
+main {
+  padding: 2em 1em;
+}
+
+/* Emergency Cards List */
+#emergencyList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Card Design */
+.card {
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5em;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.card strong {
+  display: block;
+  font-size: 1.5em;
+  color: #fd5c63;
+  margin-bottom: 1em;
+}
+
+/* Accordion Content */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+  border-top: 1px dashed #ccc;
+  padding-top: 0.8em;
+}
+
+.accordion-content.open {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.accordion-content ol {
+  margin-top: 1em;
+  padding-left: 1.2em;
+}
+
+.accordion-content .actions {
+  margin-top: 1.5em;
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Buttons */
+.callBtn, #speakBtn, .speakBtn, #backBtn, .locationBtn {
+  padding: 0.6em 1.2em;
+  background: #fd5c63;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.callBtn:hover, #speakBtn:hover,.speakBtn, #backBtn:hover, .locationBtn:hover {
+  background: #f76b1c;
+  transform: scale(1.05);
+}
+.speakBtn.speaking {
+  background: #444;
+}
+
+/* Video Styling */
+.videoWrapper {
+  margin-top: 1em;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.videoWrapper iframe {
+  width: 100%;
+  height: 215px;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+.videoWrapper iframe:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* Translate Widget */
+#google_translate_element {
+  text-align: right;
+  margin: 1em 2em;
+}
+
+/* Hidden Section */
+.hidden {
+  display: none;
+}
+
+/* Dark Mode */
+body.dark {
+  background: linear-gradient(to right, #1a1a1a, #2e2e2e);
+  color: #eee;
+}
+
+body.dark .card {
+  background: #2e2e2e;
+  border-color: #444;
+}
+
+body.dark header {
+  background: linear-gradient(to right, #444, #222);
+}
+
+body.dark .callBtn, 
+body.dark #speakBtn,
+body.dark #backBtn,
+body.dark .locationBtn {
+  background: #555;
+}
+
+body.dark .callBtn:hover, 
+body.dark #speakBtn:hover,
+body.dark #backBtn:hover,
+body.dark .locationBtn:hover {
+  background: #777;
+}
+
+body.dark #searchInput {
+  background: #333;
+  color: white;
+}
+
+body.dark #voiceSearch {
+  background: #555;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
   header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em;
-    background: #fd4848;
-    color: white;
-  }
-  
-  #toggleDark {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: white;
-  }
-  
-  main {
-    padding: 1em;
-  }
-  
-  #emergencyList {
-    display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 1em;
   }
-  
-  .card {
-    padding: 1em;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background: white;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.2s, background 0.3s;
+
+  #emergencyList {
+    padding: 0 1em;
   }
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .card:hover {
-    transform: scale(1.01);
-    background: #f5f5f5;
-  }
-  
-  .hidden {
-    display: none;
-  }
-  
-  #detailView {
-    animation: fadeIn 0.3s ease;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  #stepsList {
-    margin-top: 1em;
-    padding-left: 1.2em;
-  }
-  
-  .actions {
-    margin-top: 1em;
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-  }
-  
-  .callBtn, #speakBtn, #backBtn {
-    padding: 0.6em 1.2em;
-    background: #fd4848;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .callBtn:hover, #speakBtn:hover, #backBtn:hover {
-    background: #686868;
-  }
-  
-  /* Dark mode */
-  body.dark {
-    background-color: #1a1a1a;
-    color: #eee;
-  }
-  
-  body.dark .card {
-    background: #333;
-    border-color: #444;
-  }
-  
-  body.dark header {
-    background: #222;
-  }
-  
-  body.dark .callBtn, 
-  body.dark #speakBtn,
-  body.dark #backBtn {
-    background: #555;
-  }
-  
-  body.dark .callBtn:hover, 
-  body.dark #speakBtn:hover,
-  body.dark #backBtn:hover {
-    background: #777;
-  }
-  
-  .accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
-    opacity: 0;
-  }
-  
-  .accordion-content.open {
-    max-height: 500px; /* adjust based on step count */
-    opacity: 1;
-  }
-  
-  /* Styling for steps inside */
-  .accordion-content ol {
-    margin-top: 1em;
-    padding-left: 1.2em;
-  }
-  
-  .accordion-content .actions {
-    margin-top: 0.8em;
-    display: flex;
-    gap: 1em;
-    flex-wrap: wrap;
-  }
+}

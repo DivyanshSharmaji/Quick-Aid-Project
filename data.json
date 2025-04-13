@@ -1,80 +1,124 @@
 [
-    {
-      "title": "CPR",
-      "steps": [
-        "Check for responsiveness.",
-        "Call emergency services (Dial 112).",
-        "Place the person on their back.",
-        "Start chest compressions: 100–120 per minute.",
-        "Give rescue breaths (if trained): 2 breaths after every 30 compressions.",
-        "Continue until help arrives or the person starts breathing."
-      ]
-    },
-    {
-      "title": "Choking",
-      "steps": [
-        "Ask the person if they’re choking.",
-        "Encourage them to cough.",
-        "Give 5 back blows between shoulder blades.",
-        "If not effective, give 5 abdominal thrusts.",
-        "Repeat until object is expelled or help arrives.",
-        "Call emergency services if needed."
-      ]
-    },
-    {
-      "title": "Bleeding",
-      "steps": [
-        "Wear gloves if available.",
-        "Apply direct pressure to wound.",
-        "Use a clean cloth or bandage.",
-        "Keep the injured area elevated.",
-        "Do not remove embedded objects.",
-        "Call emergency services if severe."
-      ]
-    },
-    {
-      "title": "Burns",
-      "steps": [
-        "Remove the person from the heat source.",
-        "Cool the burn under running water for 10+ minutes.",
-        "Remove tight clothing/jewelry around the area.",
-        "Cover with a clean, non-stick dressing.",
-        "Do not pop blisters or apply creams.",
-        "Seek medical help if serious."
-      ]
-    },
-    {
-      "title": "Fractures",
-      "steps": [
-        "Immobilize the injured area.",
-        "Apply a splint if trained.",
-        "Avoid moving the broken bone.",
-        "Apply cold pack to reduce swelling.",
-        "Keep the person calm and still.",
-        "Call emergency services."
-      ]
-    },
-    {
-      "title": "Snake Bite",
-      "steps": [
-        "Keep the person calm and still.",
-        "Do not suck out venom or cut the bite.",
-        "Keep the bitten area below heart level.",
-        "Do not give anything to eat or drink.",
-        "Apply a pressure bandage (not a tourniquet).",
-        "Call emergency services immediately."
-      ]
-    },
-    {
-      "title": "Heart Attack",
-      "steps": [
-        "Call emergency services immediately.",
-        "Make the person sit down and stay calm.",
-        "Loosen tight clothing.",
-        "Give aspirin if available and not allergic.",
-        "Monitor breathing and pulse.",
-        "Begin CPR if the person becomes unconscious and stops breathing."
-      ]
-    }
-  ]
-  
+  {
+    "title": "CPR",
+    "steps": [
+      "Check for responsiveness.",
+      "Call emergency services (Dial 112).",
+      "Place the person on their back.",
+      "Start chest compressions: 100\u2013120 per minute.",
+      "Give rescue breaths (if trained): 2 breaths after every 30 compressions.",
+      "Continue until help arrives or the person starts breathing."
+    ]
+  },
+  {
+    "title": "Choking",
+    "steps": [
+      "Ask the person if they\u2019re choking.",
+      "Encourage them to cough.",
+      "Give 5 back blows between shoulder blades.",
+      "If not effective, give 5 abdominal thrusts.",
+      "Repeat until object is expelled or help arrives.",
+      "Call emergency services if needed."
+    ]
+  },
+  {
+    "title": "Bleeding",
+    "steps": [
+      "Wear gloves if available.",
+      "Apply direct pressure to wound.",
+      "Use a clean cloth or bandage.",
+      "Keep the injured area elevated.",
+      "Do not remove embedded objects.",
+      "Call emergency services if severe."
+    ]
+  },
+  {
+    "title": "Burns",
+    "steps": [
+      "Remove the person from the heat source.",
+      "Cool the burn under running water for 10+ minutes.",
+      "Remove tight clothing/jewelry around the area.",
+      "Cover with a clean, non-stick dressing.",
+      "Do not pop blisters or apply creams.",
+      "Seek medical help if serious."
+    ]
+  },
+  {
+    "title": "Fractures",
+    "steps": [
+      "Immobilize the injured area.",
+      "Apply a splint if trained.",
+      "Avoid moving the broken bone.",
+      "Apply cold pack to reduce swelling.",
+      "Keep the person calm and still.",
+      "Call emergency services."
+    ]
+  },
+  {
+    "title": "Snake Bite",
+    "steps": [
+      "Keep the person calm and still.",
+      "Do not suck out venom or cut the bite.",
+      "Keep the bitten area below heart level.",
+      "Do not give anything to eat or drink.",
+      "Apply a pressure bandage (not a tourniquet).",
+      "Call emergency services immediately."
+    ]
+  },
+  {
+    "title": "Heart Attack",
+    "steps": [
+      "Call emergency services immediately.",
+      "Make the person sit down and stay calm.",
+      "Loosen tight clothing.",
+      "Give aspirin if available and not allergic.",
+      "Monitor breathing and pulse.",
+      "Begin CPR if the person becomes unconscious and stops breathing."
+    ]
+  },
+  {
+    "title": "Stroke",
+    "steps": [
+      "Use the FAST test: Face, Arms, Speech, Time.",
+      "Call emergency services immediately.",
+      "Do not give food or drink.",
+      "Keep the person calm and lying down."
+    ]
+  },
+  {
+    "title": "Electric Shock",
+    "steps": [
+      "Turn off the source of electricity.",
+      "Do not touch the person if they're still in contact.",
+      "Call emergency services.",
+      "Check for breathing and perform CPR if needed."
+    ]
+  },
+  {
+    "title": "Drowning",
+    "steps": [
+      "Remove the person from water if safe to do so.",
+      "Call emergency services.",
+      "Check for breathing and pulse.",
+      "Begin CPR if needed."
+    ]
+  },
+  {
+    "title": "Seizures",
+    "steps": [
+      "Clear the area of hazards.",
+      "Do not restrain the person.",
+      "Place them on their side after the seizure.",
+      "Call emergency services if it lasts more than 5 minutes."
+    ]
+  },
+  {
+    "title": "Poisoning",
+    "steps": [
+      "Try to identify the poison.",
+      "Do not induce vomiting unless told to.",
+      "Call emergency services or poison control.",
+      "Keep the person still and calm."
+    ]
+  }
+]

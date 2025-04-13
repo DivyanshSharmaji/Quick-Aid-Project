@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Quick Aid</title>
+  <link rel="Icon" href="Icon\Icon.png" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,22 +12,39 @@
 
   <header>
     <h1>🚑 Quick Aid</h1>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search help topics...">
+      <button id="voiceSearch">🎤</button>
+    </div>
     <button id="toggleDark">🌓</button>
   </header>
+
+  <div id="google_translate_element"></div>
 
   <main>
     <div id="emergencyList"></div>
     <div id="detailView" class="hidden">
-      <!-- <button id="backBtn">← Back</button> -->
       <h2 id="detailTitle"></h2>
       <ol id="stepsList"></ol>
       <div class="actions">
-        <button id="speakBtn">🔊 Listen</button>
+        <button id="speakBtn">🔊 Text to Voice  </button>
         <a href="tel:112" class="callBtn">📞 Call 112</a>
       </div>
     </div>
   </main>
 
   <script src="script.js"></script>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,es,fr,de,hi,zh-CN',
+        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" 
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+  </script>
 </body>
 </html>
