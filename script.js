@@ -1,4 +1,111 @@
+// This ensures that the DOM is fully loaded before trying to access elements.
+window.addEventListener("DOMContentLoaded", () => {
+  // Get references to various DOM elements related to the chatbot.
+  const chatToggle = document.getElementById("chatToggle");
+  const chatContainer = document.getElementById("chatContainer");
+  const chatClose = document.getElementById("chatClose");
+  const chatInput = document.getElementById("chatInput");
+  const chatSend = document.getElementById("chatSend");
+  const chatMessages = document.getElementById("chatMessages");
 
+  // Array to store chat history for conversational memory
+  let chatHistory = [];
+
+  // Function to add a message to the chat history and display it
+  function addMessageToChat(role, text) {
+    // Add to history for API context
+    chatHistory.push({ role: role, parts: [{ text: text }] });
+
+    // Create and append to display
+    const msgP = document.createElement("p");
+    msgP.textContent = `${role === 'user' ? '👤' : '🤖'}: ${text}`;
+    chatMessages.appendChild(msgP);
+    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to latest message
+  }
+
+  // Event listener to toggle chatbot visibility when the chatToggle button is clicked.
+  chatToggle.addEventListener("click", () => {
+    chatContainer.classList.toggle("hidden");
+    console.log("Chatbot visibility toggled. Hidden:", chatContainer.classList.contains("hidden"));
+  });
+
+  // Event listener to hide the chatbot when the chatClose button is clicked.
+  chatClose.addEventListener("click", () => {
+    chatContainer.classList.add("hidden");
+    console.log("Chatbot close button clicked. Hidden:", chatContainer.classList.contains("hidden"));
+  });
+
+  // Event listener for the 'keypress' event on the chat input field.
+  chatInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      chatSend.click();
+    }
+  });
+
+  // Event listener for the 'click' event on the chatSend button.
+  chatSend.addEventListener("click", async () => {
+    const userMsg = chatInput.value.trim();
+    if (!userMsg) return;
+
+    addMessageToChat('user', userMsg); // Add user message to history and display
+    chatInput.value = ""; // Clear input immediately
+
+    try {
+      // Add a system instruction to guide the model for short, simple responses.
+      const systemInstruction = "Your responses should be short, simple, and easy to understand. Focus on providing direct answers without excessive detail.";
+      
+      // Prepare the payload with the entire chat history and system instruction
+      const payload = { 
+          contents: chatHistory, // Send the full history
+          systemInstruction: { parts: [{ text: systemInstruction }] }
+      };
+
+      const apiKey = "AIzaSyAqoZ046Jheoz_zoVd61qu9Oo2JsNUbw1A"; 
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+      console.log("Sending API request with payload:", payload);
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      console.log("API response status:", response.status);
+      const result = await response.json();
+      console.log("Full API result:", result);
+
+      if (result.candidates && result.candidates.length > 0 &&
+          result.candidates[0].content && result.candidates[0].content.parts &&
+          result.candidates[0].content.parts.length > 0) {
+        const botText = result.candidates[0].content.parts[0].text;
+        addMessageToChat('model', botText); // Add bot message to history and display
+      } else {
+        const errP = document.createElement("p");
+        if (result.promptFeedback && result.promptFeedback.safetyRatings && result.promptFeedback.safetyRatings.length > 0) {
+            errP.textContent = "🤖: Your prompt may have triggered safety filters. Please try rephrasing or a different question.";
+            console.warn("Prompt flagged by safety filters:", result.promptFeedback.safetyRatings);
+        } else {
+            errP.textContent = "🤖: Sorry, I couldn't get a valid response. No candidates were returned.";
+        }
+        chatMessages.appendChild(errP);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Do NOT add error message to chatHistory to avoid polluting context
+      }
+    } catch (err) {
+      console.error("Gemini API error:", err);
+      const errP = document.createElement("p");
+      errP.textContent = "🤖: Sorry, I couldn't respond at the moment due to a network issue or an API service problem.";
+      chatMessages.appendChild(errP);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      // Do NOT add error message to chatHistory
+    }
+  });
+});
+
+
+// Emergency list and other existing functionalities below
 const emergencyList = document.getElementById("emergencyList");
 const detailView = document.getElementById("detailView");
 const detailTitle = document.getElementById("detailTitle");
@@ -9,30 +116,26 @@ const toggleDark = document.getElementById("toggleDark");
 const searchInput = document.getElementById('searchInput');
 const voiceSearchBtn = document.getElementById('voiceSearch');
 let cardElements = [];
-let currentSteps = [];
-
 
 const videoMap = {
-  "CPR": "https://www.youtube.com/embed/UxEfQJP3MQk", // Learn Hands-Only CPR in 60 seconds
-  "Choking": "https://www.youtube.com/embed/KWWcWNpWYUI", // What to do if someone is Choking | One Minute Demos
-  "Bleeding": "https://www.youtube.com/embed/V8KiNURVjgk", // Bleeding - Animated
-  "Burns": "https://www.youtube.com/embed/DzpRjE5ekVk", // Learn how to treat minor burns in less than 1 minute
-  "Fractures": "https://www.youtube.com/embed/CP-vb0xxzFM", // First aid for a broken bone | British Red Cross
-  "Snake Bite": "https://www.youtube.com/embed/lLkw4BXa7pQ", // How to treat a snake bite | St John WA
-  "Heart Attack": "https://www.youtube.com/embed/gDwt7dD3awc", // First Aid Training - St John Ambulance
-  "Stroke": "https://www.youtube.com/embed/7Ee1o05x5kw", // First aid for a stroke - British Red Cross
-  "Electric Shock": "https://www.youtube.com/embed/-_45LVWr1PE", // ELECTRIC SHOCK - First Aid In 60 Seconds
-  "Drowning": "https://www.youtube.com/embed/Hlrbio-NpxQ", // How to treat drowning on the First Aid Show
-  "Seizures": "https://www.youtube.com/embed/1azFuq_yZpE", // #SeizureFirstAid - What to Do in the Event of a Seizure
-  "Poisoning": "https://www.youtube.com/embed/b2ieb8BZJuY" // How To Treat Poisoning, Signs & Symptoms - St John Ambulance
+  "CPR": "https://www.youtube.com/embed/UxEfQJP3MQk",
+  "Choking": "https://www.youtube.com/embed/KWWcWNpWYUI",
+  "Bleeding": "https://www.youtube.com/embed/V8KiNURVjgk",
+  "Burns": "https://www.youtube.com/embed/DzpRjE5ekVk",
+  "Fractures": "https://www.youtube.com/embed/CP-vb0xxzFM",
+  "Snake Bite": "https://www.youtube.com/embed/lLkw4BXa7pQ",
+  "Heart Attack": "https://www.youtube.com/embed/gDwt7dD3awc",
+  "Stroke": "https://www.youtube.com/embed/7Ee1o05x5kw",
+  "Electric Shock": "https://www.youtube.com/embed/-_45LVWr1PE",
+  "Drowning": "https://www.youtube.com/embed/Hlrbio-NpxQ",
+  "Seizures": "https://www.youtube.com/embed/1azFuq_yZpE",
+  "Poisoning": "https://www.youtube.com/embed/b2ieb8BZJuY"
 };
 
-// Load saved theme
 if (localStorage.getItem('theme') === 'dark') {
   document.body.classList.add('dark');
 }
 
-// Toggle and store theme
 toggleDark.addEventListener('click', () => {
   document.body.classList.toggle('dark');
   const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
@@ -60,16 +163,6 @@ fetch('data.json')
       const actions = document.createElement('div');
       actions.className = 'actions';
 
-      // const speakBtn = document.createElement('button');
-      // speakBtn.textContent = '🔊 Listen';
-      // speakBtn.className = 'speakBtn';
-      // speakBtn.addEventListener('click', () => {
-      //   const utterance = new SpeechSynthesisUtterance(item.steps.join('. '));
-      //   speechSynthesis.speak(utterance);
-      // });
-
-
-      // Helper function to detect selected translation language
       function getTranslatedLangCode() {
         try {
           const lang = document.cookie.match(/googtrans=(\/[^\/]+\/)?([^;]+)/);
@@ -79,45 +172,26 @@ fetch('data.json')
         }
       }
 
-      // Toggle text-to-speech logic
-      let currentUtterance = null;
+      const speakBtnCard = document.createElement('button');
+      speakBtnCard.textContent = '🔊 Text to Voice ';
+      speakBtnCard.className = 'speakBtn';
 
-      const speakBtn = document.createElement('button');
-      speakBtn.textContent = '🔊 Text to Voice ';
-      speakBtn.className = 'speakBtn';
-
-      speakBtn.addEventListener('click', () => {
-        // If already speaking, cancel it
+      speakBtnCard.addEventListener('click', () => {
         if (speechSynthesis.speaking || speechSynthesis.paused) {
           speechSynthesis.cancel();
-          speakBtn.classList.remove('speaking');
+          speakBtnCard.classList.remove('speaking');
           return;
         }
 
         const utterance = new SpeechSynthesisUtterance(item.steps.join('. '));
         utterance.lang = getTranslatedLangCode();
-        currentUtterance = utterance;
 
-        // Optional: visual feedback while speaking
-        speakBtn.classList.add('speaking');
-
+        speakBtnCard.classList.add('speaking');
         speechSynthesis.speak(utterance);
 
-        utterance.onend = () => {
-          speakBtn.classList.remove('speaking');
-        };
-
-        utterance.onerror = () => {
-          speakBtn.classList.remove('speaking');
-        };
+        utterance.onend = () => speakBtnCard.classList.remove('speaking');
+        utterance.onerror = () => speakBtnCard.classList.remove('speaking');
       });
-
-
-
-
-
-
-
 
       const callBtn = document.createElement('a');
       callBtn.href = 'tel:102';
@@ -129,22 +203,22 @@ fetch('data.json')
       locationBtn.className = 'locationBtn';
       locationBtn.addEventListener('click', () => {
         if (!navigator.geolocation) {
-          alert('Geolocation is not supported by your browser.');
+          console.error('Geolocation is not supported by your browser.');
           return;
         }
 
         navigator.geolocation.getCurrentPosition(position => {
           const { latitude, longitude } = position.coords;
-          const phone = '+916202250417'; // No '+' or country code formatting for WhatsApp links
+          const phone = '+916202250417';
           const message = `I need help. My location: https://maps.google.com/?q=${latitude},${longitude}`;
           const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
           window.open(whatsappURL, '_blank');
         }, () => {
-          alert('Unable to retrieve your location.');
+          console.error('Unable to retrieve your location.');
         });
       });
 
-      actions.appendChild(speakBtn);
+      actions.appendChild(speakBtnCard);
       actions.appendChild(callBtn);
       actions.appendChild(locationBtn);
 
@@ -167,64 +241,50 @@ fetch('data.json')
       cardElements.push({ element: card, title: item.title.toLowerCase() });
 
       card.addEventListener('click', (event) => {
-        // Ignore clicks on buttons inside the card
-        if (event.target.closest('button') || event.target.closest('a')) {
-          return;
-        }
-      
+        if (event.target.closest('button') || event.target.closest('a')) return;
+
         const isOpen = content.classList.contains('open');
         document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
         if (!isOpen) content.classList.add('open');
       });
-      
     });
   });
 
-
-
-
-  // Detect selected language from Google Translate
-  function getTranslatedLangCode() {
-    try {
-      const match = document.cookie.match(/googtrans=\/[^\/]+\/([^;]+)/);
-      return match ? match[1] : 'en';
-    } catch (e) {
-      return 'en';
-    }
+function getTranslatedLangCode() {
+  try {
+    const match = document.cookie.match(/googtrans=\/[^\/]+\/([^;]+)/);
+    return match ? match[1] : 'en';
+  } catch (e) {
+    return 'en';
   }
-  
-  // Translate query to English if needed
-  async function translateToEnglish(text) {
-    const targetLang = getTranslatedLangCode();
-    if (targetLang === 'en') return text;
-  
-    try {
-      const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${targetLang}&tl=en&dt=t&q=${encodeURIComponent(text)}`);
-      const data = await response.json();
-      return data[0][0][0]; // translated text
-    } catch (err) {
-      console.error("Translation error:", err);
-      return text; // fallback to original text
-    }
+}
+
+async function translateToEnglish(text) {
+  const targetLang = getTranslatedLangCode();
+  if (targetLang === 'en') return text;
+
+  try {
+    const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${targetLang}&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+    const data = await response.json();
+    return data[0][0][0];
+  } catch (err) {
+    console.error("Translation error:", err);
+    return text;
   }
-  
-  // Search handler
-  searchInput.addEventListener('input', async () => {
-    const rawQuery = searchInput.value.trim().toLowerCase();
-    const translatedQuery = await translateToEnglish(rawQuery);
-  
-    cardElements.forEach(({ element, title }) => {
-      element.style.display = title.includes(translatedQuery.toLowerCase()) ? '' : 'none';
-    });
+}
+
+searchInput.addEventListener('input', async () => {
+  const rawQuery = searchInput.value.trim().toLowerCase();
+  const translatedQuery = await translateToEnglish(rawQuery);
+  cardElements.forEach(({ element, title }) => {
+    element.style.display = title.includes(translatedQuery.toLowerCase()) ? '' : 'none';
   });
+});
 
 voiceSearchBtn.addEventListener('click', () => {
   const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = 'en-US';  
-
-  // Start listening animation
+  recognition.lang = 'en-US';
   voiceSearchBtn.classList.add('listening');
-
   recognition.start();
 
   recognition.onresult = (event) => {
@@ -233,17 +293,12 @@ voiceSearchBtn.addEventListener('click', () => {
     searchInput.dispatchEvent(new Event('input'));
   };
 
-  recognition.onerror = () => {
-    voiceSearchBtn.classList.remove('listening'); // Remove on error
-  };
-
-  recognition.onend = () => {
-    voiceSearchBtn.classList.remove('listening'); // Remove on end
-  };
+  recognition.onerror = () => voiceSearchBtn.classList.remove('listening');
+  recognition.onend = () => voiceSearchBtn.classList.remove('listening');
 });
 
-// Text-to-speech for detail view
 speakBtn.addEventListener('click', () => {
-  const utterance = new SpeechSynthesisUtterance(currentSteps.join('. '));
+  const detailSteps = Array.from(stepsList.children).map(li => li.textContent);
+  const utterance = new SpeechSynthesisUtterance(detailSteps.join('. '));
   speechSynthesis.speak(utterance);
 });

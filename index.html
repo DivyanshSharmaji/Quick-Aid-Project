@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,29 +10,44 @@
 <body>
 
   <header>
-    <h1>🚑 Quick Aid</h1>
+    <h1> 🚑 Quick Aid</h1>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search help topics...">
-      <button id="voiceSearch">🎤</button>
+      <button id="voiceSearch">&#127908;</button>
+      <!-- Chatbot button -->
+      <button id="chatToggle" class="chat-circle">&#129302;</button>
     </div>
-    <button id="toggleDark">🌓</button>
+    <button id="toggleDark">
+      <span class="moon-icon">&#127771;</span> <!-- Moon icon for light mode -->
+      <span class="sun-icon">&#127774;</span> <!-- Sun icon for dark mode -->
+    </button>
   </header>
 
+  <!-- Chatbot Interface -->
+  <div id="chatContainer" class="hidden">
+    <div id="chatBox">
+      <div class="chat-header">
+        <h3>Quick Aid Chat-Bot</h3> <!-- Changed chatbot name -->
+        <button id="chatClose">&times;</button>
+      </div>
+      <div id="chatMessages"></div>
+      <div id="chatInputContainer">
+        <input type="text" id="chatInput" placeholder="Ask me anything...">
+        <button id="chatSend">Send</button>
+      </div>
+    </div>
+  </div>
   <div id="google_translate_element"></div>
 
   <main>
     <div id="emergencyList"></div>
-    <div id="detailView" class="hidden">
-      <h2 id="detailTitle"></h2>
-      <ol id="stepsList"></ol>
-      <div class="actions">
-        <button id="speakBtn">🔊 Text to Voice  </button>
-        <a href="tel:102" class="callBtn">📞 Call 102</a>
-      </div>
-    </div>
+    <!-- The #detailView section has been removed as its content was redundant
+         and causing duplicate buttons to appear. The accordion functionality
+         within each emergency card now handles displaying details and actions. -->
   </main>
 
-  <script src="script.js"></script>
+  
+  <script type="module" src="script.js"></script>
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -42,7 +56,7 @@
         layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
       }, 'google_translate_element');
     }
-  </script>
+    </script>
   <script type="text/javascript" 
     src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
   </script>

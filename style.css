@@ -1,4 +1,3 @@
-
 /* Base Styling */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,20 +21,63 @@ header {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
+/* h1 logo and text */
 h1 {
   font-size: 2em;
   font-weight: 700;
   letter-spacing: 1px;
+  display: flex; /* Allow logo and text to be inline */
+  align-items: center;
+  gap: 0.5em; /* Space between logo and text */
 }
+
+.header-logo {
+  height: 1.5em; /* Adjust size as needed */
+  vertical-align: middle; /* Align with text */
+}
+
 
 /* Toggle & Search */
 #toggleDark {
-  background: none;
+  background: none; /* No background color change on button itself */
   border: none;
   font-size: 1.5em;
   cursor: pointer;
   color: white;
+  transition: background 0.3s ease; /* Only background transition on button */
+  border-radius: 50%; /* Make it circular */
+  padding: 0.5em; /* Add padding for a better clickable area */
+  display: inline-flex; /* Use flex to center icon inside */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Hide overflow from scaling icon */
 }
+
+#toggleDark:hover {
+  background: rgba(255,255,255,0.2); /* Subtle background on hover */
+}
+
+/* Icons for light/dark mode - NO scaling on hover for these */
+#toggleDark .sun-icon,
+#toggleDark .moon-icon {
+  display: inline-block;
+  transition: none; /* Removed transition for icon itself */
+}
+
+#toggleDark:hover .sun-icon,
+#toggleDark:hover .moon-icon {
+  transform: none; /* Removed transform for icon itself */
+  box-shadow: none; /* Removed shadow for icon itself */
+}
+
+body:not(.dark) #toggleDark .sun-icon {
+  display: none; /* Hide sun icon in light mode */
+}
+
+body.dark #toggleDark .moon-icon {
+  display: none; /* Hide moon icon in dark mode */
+}
+
 
 .search-container {
   display: flex;
@@ -51,21 +93,43 @@ h1 {
   outline: none;
   width: 200px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+#searchInput:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
 }
 
 #voiceSearch {
-  background: #007bff;
+  background: #007bff; /* Keep blue */
   color: white;
   border: none;
   padding: 0.5em;
   font-size: 1.2em;
   border-radius: 50%;
   cursor: pointer;
+  transition: background 0.3s ease; /* Only background transition on button */
+  display: inline-flex; /* Use flex to center icon inside */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Hide overflow from scaling icon */
 }
 
 #voiceSearch:hover {
-  background: #0056b3;
+  background: #0056b3; /* Darker blue background on hover */
 }
+
+/* Apply scaling/shadow directly to the content within voiceSearch button */
+#voiceSearch::first-letter { /* Targeting the emoji/text content */
+    display: inline-block; /* Make it a block for transform */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#voiceSearch:hover::first-letter {
+    transform: scale(1.2); /* Only the icon scales */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Shadow on the icon */
+}
+
 
 #voiceSearch.listening {
   animation: pulse 1s infinite;
@@ -90,7 +154,7 @@ h1 {
 
 /* Main Layout */
 main {
-  padding: 2em 1em;
+  padding: 2em 1em; /* Increased horizontal padding for better mobile spacing */
 }
 
 /* Emergency Cards List */
@@ -117,8 +181,8 @@ main {
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  transform: scale(1.01); /* Changed from translateY to scale for expanding effect */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25); /* More pronounced shadow */
 }
 
 .card strong {
@@ -139,7 +203,7 @@ main {
 }
 
 .accordion-content.open {
-  max-height: 600px;
+  max-height: 600px; /* Adjust if content is larger */
   opacity: 1;
 }
 
@@ -171,7 +235,7 @@ main {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.callBtn:hover, #speakBtn:hover,.speakBtn, #backBtn:hover, .locationBtn:hover {
+.callBtn:hover, #speakBtn:hover,.speakBtn:hover, #backBtn:hover, .locationBtn:hover {
   background: #f76b1c;
   transform: scale(1.05);
 }
@@ -206,9 +270,11 @@ main {
 }
 
 /* Hidden Section */
-.hidden {
-  display: none;
+/* Ensure this rule has high specificity for the chatContainer */
+#chatContainer.hidden {
+  display: none !important; /* Added !important to ensure override */
 }
+
 
 /* Dark Mode */
 body.dark {
@@ -227,26 +293,41 @@ body.dark header {
 
 body.dark .callBtn, 
 body.dark #speakBtn,
+body.dark .speakBtn,
 body.dark #backBtn,
 body.dark .locationBtn {
-  background: #555;
+  background-color: #007bff; /* Keeps the blue theme for buttons in dark mode */
 }
 
 body.dark .callBtn:hover, 
 body.dark #speakBtn:hover,
+body.dark .speakBtn:hover,
 body.dark #backBtn:hover,
 body.dark .locationBtn:hover {
-  background: #777;
+  background-color: #007bff; /* Ensures hover remains blue */
 }
+
+/* Ensure voiceSearch remains blue in dark mode */
+body.dark #voiceSearch {
+  background: #007bff; /* Keep blue */
+}
+
+/* Also ensure hover for voiceSearch is consistent */
+body.dark #voiceSearch:hover {
+  background: #0056b3;
+}
+
 
 body.dark #searchInput {
   background: #333;
   color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-body.dark #voiceSearch {
-  background: #555;
+body.dark #searchInput:focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.6);
 }
+
 
 /* Responsive Enhancements */
 @media (max-width: 768px) {
@@ -257,6 +338,262 @@ body.dark #voiceSearch {
   }
 
   #emergencyList {
-    padding: 0 1em;
+    padding: 0 1em; /* Ensure padding on smaller screens */
   }
+
+  /* Adjust chat container width for smaller screens if needed */
+  #chatContainer {
+    width: 90%; /* Make it take up more width on small screens */
+    left: 5%; /* Center it */
+    right: 5%;
+    max-height: 70vh; /* Limit height for smaller screens */
+    bottom: 1em;
+  }
+}
+
+
+
+/* Chat-bot styling */
+.chat-circle {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.3em;
+  padding: 0.5em; /* Adjust padding for better icon sizing */
+  cursor: pointer;
+  margin-left: 0.5em;
+  transition: background 0.3s ease; /* Only background transition on button */
+  display: inline-flex; /* Use flex to center icon inside */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Hide overflow from scaling icon */
+}
+
+/* Apply scaling/shadow directly to the content within chat-circle button */
+.chat-circle::first-letter { /* Targeting the emoji/text content */
+    display: inline-block; /* Make it a block for transform */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.chat-circle:hover {
+  background: #218838; /* Darker green background on hover */
+}
+
+.chat-circle:hover::first-letter {
+    transform: scale(1.2); /* Only the icon scales */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Shadow on the icon */
+}
+
+#chatContainer {
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+  width: 300px;
+  max-height: 450px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+/* Chatbox Header Styling */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8em 1em;
+  background: linear-gradient(to right, #28a745, #218838); /* Green gradient */
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 1em; /* Adjust to fit */
+}
+
+/* Close button styling */
+.chat-header #chatClose {
+  position: static; /* Removed absolute positioning */
+  color: #dc3545; /* Set close button color to red */
+  font-size: 1.7em; /* Made slightly bigger */
+  background: none; /* Ensure no background from parent */
+  border: none; /* Remove any border */
+  border-radius: 50%; /* Make it circular */
+  padding: 0.2em 0.4em; /* Adjust padding for better clickable area and icon size */
+  cursor: pointer;
+  transition: background 0.3s ease; /* Only background transition on button */
+  display: inline-flex; /* Use flex to center icon inside */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Hide overflow from scaling icon */
+}
+
+/* Apply scaling/shadow directly to the content within close button */
+.chat-header #chatClose::first-letter { /* Targeting the 'x' text content */
+    display: inline-block; /* Make it a block for transform */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.chat-header #chatClose:hover {
+  background: rgba(220, 53, 69, 0.1); /* Subtle red background on hover */
+  color: #ffcccc;
+}
+
+.chat-header #chatClose:hover::first-letter {
+    transform: scale(1.2); /* Only the 'x' scales */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+    color: #ffcccc;
+}
+
+
+#chatBox {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+#chatMessages {
+  flex-grow: 1;
+  padding: 1em;
+  overflow-y: auto;
+  max-height: 250px;
+  word-wrap: break-word;
+  background-color: transparent; /* Changed to transparent */
+}
+#chatMessages p {
+  margin: 0.5em 0;
+  padding: 0.6em 0.8em;
+  border-radius: 10px;
+  max-width: 85%;
+  word-break: break-word;
+  opacity: 0; /* For fade-in effect */
+  transform: translateY(10px); /* For slide-in effect */
+  animation: message-appear 0.3s ease-out forwards; /* Animation for messages */
+}
+
+/* Animation for messages */
+@keyframes message-appear {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#chatMessages p:nth-child(even) { /* Bot messages */
+  background-color: #e0e0e0;
+  align-self: flex-start;
+  color: #333;
+  border-bottom-left-radius: 4px; /* More chat-bubble like */
+}
+#chatMessages p:nth-child(odd) { /* User messages */
+  background-color: #d1e7dd; /* Light green */
+  align-self: flex-end;
+  text-align: right;
+  color: #333;
+  border-bottom-right-radius: 4px; /* More chat-bubble like */
+}
+
+#chatInputContainer {
+  display: flex;
+  padding: 0.5em;
+  border-top: 1px solid #ccc;
+  background-color: transparent; /* Changed to transparent */
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05); /* Subtle shadow at top of input area */
+}
+#chatInput {
+  flex: 1;
+  padding: 0.6em; /* Slightly more padding */
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.95em;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#chatInput:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+}
+
+#chatSend {
+  background: #28a745;
+  color: white;
+  border: none;
+  margin-left: 0.3em;
+  padding: 0.6em 1em; /* Slightly more padding */
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+#chatSend:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+
+/* Dark mode for chat */
+body.dark #chatContainer {
+  background: #333;
+  color: #eee;
+  box-shadow: 0 4px 20px rgba(255,255,255,0.1);
+}
+
+body.dark .chat-header {
+  background: linear-gradient(to right, #4CAF50, #388E3C);
+  color: white;
+}
+
+body.dark .chat-header #chatClose {
+  color: #dc3545; /* Changed close button color in dark theme to red */
+}
+
+body.dark .chat-header #chatClose:hover {
+  background: rgba(220, 53, 69, 0.1); /* Subtle red background on hover in dark mode */
+  color: #ffcccc; /* Lighter red/pink on hover for the 'x' in dark mode */
+}
+
+body.dark #chatMessages {
+  background-color: transparent; /* Changed to transparent in dark mode */
+}
+
+body.dark #chatMessages p:nth-child(even) { /* Bot messages */
+  background-color: #444;
+  color: #eee;
+}
+body.dark #chatMessages p:nth-child(odd) { /* User messages */
+  background-color: #555;
+  color: #eee;
+}
+
+
+body.dark #chatInputContainer {
+  background-color: #333;
+  border-top-color: #555;
+  box-shadow: 0 -2px 10px rgba(255,255,255,0.05);
+}
+
+body.dark #chatInput {
+  background: #444;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark #chatInput:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.4);
+}
+
+body.dark #chatSend {
+  background: #4CAF50;
+}
+
+body.dark #chatSend:hover {
+  background: #45a049;
 }
